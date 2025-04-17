@@ -1,0 +1,30 @@
+{
+    "providers": {
+        "DeepSeek": {
+            "base_url": "https://api.deepseek.com",
+            "api_key": "your_api_key_here",
+            "models": [
+                "deepseek-chat",
+                "deepseek-reasoner"
+            ]
+        },
+        "OpenAI": {
+            "base_url": "https://api.openai.com",
+            "api_key": "your_api_key_here",
+            "models": [
+                "gpt-4",
+                "gpt-3.5-turbo"
+            ]
+        }
+    },
+    "default_provider": "DeepSeek",
+    "default_model": "deepseek-chat",
+    "settings": {
+        "auto_save_api_key": false,
+        "proxy": {
+            "enabled": false,
+            "http": "http://127.0.0.1:10809",
+            "https": "http://127.0.0.1:10809"
+        }
+    }
+} 
