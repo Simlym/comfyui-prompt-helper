@@ -85,9 +85,9 @@ class PromptProcessor:
         }
 
     RETURN_TYPES = ("STRING", "STRING", "STRING", "STRING")
-    RETURN_NAMES = ("positive text(EN)", "negative text(EN)", "positive text(ZHS)", "negative text(ZHS)")
+    RETURN_NAMES = ("positive(en)", "negative(en)", "positive(zhs)", "negative(zhs)")
     FUNCTION = "process_prompt"
-    CATEGORY = "提示词处理"
+    CATEGORY = "conditioning"
 
     def _init_client(self, model: str, api_key: str = None):
         """初始化客户端"""
@@ -236,33 +236,25 @@ class PromptProcessor:
                 model=model_id,
                 messages=messages,
                 temperature=0.7,
-                max_tokens=1000,
-                stream=False
+                max_tokens=2000
             )
-
-            response_text = response.choices[0].message.content.strip()
-            print(f"收到 API 响应")  # 调试信息
             
-            positive_english, positive_chinese, negative_english, negative_chinese = self._parse_response(response_text)
-
+            # 解析响应
+            positive_english, positive_chinese, negative_english, negative_chinese = self._parse_response(response.choices[0].message.content)
+            
             # 更新对话历史
             if use_context:
-                self.conversation_history.extend([
-                    {"role": "user", "content": user_prompt},
-                    {"role": "assistant", "content": response_text}
-                ])
-                # 保持历史记录在合理范围内
-                if len(self.conversation_history) > 10:
-                    self.conversation_history = self.conversation_history[-10:]
-
-            if not all([positive_english, positive_chinese, negative_english, negative_chinese]):
-                raise ValueError("无法解析 API 响应，请检查响应格式")
-
-            return (positive_english, positive_chinese, negative_english, negative_chinese)
-
+                self.conversation_history = messages[-2:]  # 只保留最后两条消息
+                self.conversation_history.append({
+                    "role": "assistant",
+                    "content": response.choices[0].message.content
+                })
+            
+            return positive_english, negative_english, positive_chinese, negative_chinese
+            
         except Exception as e:
-            print(f"错误详情: {str(e)}")  # 调试信息
-            raise Exception(f"API调用失败: {str(e)}")
+            print(f"API 请求失败: {str(e)}")
+            return "", "", "", ""
 
 # 节点映射
 NODE_CLASS_MAPPINGS = {
@@ -271,5 +263,5 @@ NODE_CLASS_MAPPINGS = {
 
 # 节点显示名称
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "PromptProcessor": "提示词处理器"
+    "PromptProcessor": "Prompt LLM Helper"
 }
