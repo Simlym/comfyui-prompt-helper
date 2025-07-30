@@ -1,3 +1,9 @@
+中文：
+ComfyUI Prompt Helper 是一个为 ComfyUI 用户设计的提示词管理与编辑工具，界面直观，减少重复劳动，让工作流更高效。
+
+English：
+ComfyUI Prompt Helper is a lightweight tool for managing and editing prompts in ComfyUI. It provides an intuitive UI that streamlines complex workflows and reduces manual work.
+
 # ComfyUI Prompt Helper
 
 一个 ComfyUI 自定义节点，用于处理中文提示词，生成适合不同模型的英文提示词及其翻译。
