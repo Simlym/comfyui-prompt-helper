@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-prompt-helper"                    
+description = "A prompt management extension for ComfyUI"
+version = "1.0.0"                         
+license = { file = "LICENSE" }          
+
+dependencies = []          
+
+[project.urls]
+Repository = "https://github.com/Simlym/comfyui‑prompt‑helper"
+
+[tool.comfy]
+PublisherId = "Simlym"                   
+DisplayName = "ComfyUI Prompt Helper"   
+Icon = ""                              
